@@ -55,24 +55,25 @@ END
     `;
 
     // モデル追加
-    viewer.addModel(pdbData, "pdb");
+    const model = viewer.addModel(pdbData, "pdb");  // ← モデルを取得
 
     // 原子の種類ごとに色分け
-    viewer.setStyle({ elem: "C" }, { sphere: { color: "black", scale: 0.3 }, stick: {} });
-    viewer.setStyle({ elem: "O" }, { sphere: { color: "red", scale: 0.3 }, stick: {} });
-    viewer.setStyle({ elem: "N" }, { sphere: { color: "blue", scale: 0.3 }, stick: {} });
-
-    // 原子ラベルを表示
-    viewer.addAtomLabels({
+    model.setStyle({ elem: "C" }, { sphere: { color: "black", scale: 0.3 }, stick: {} });
+    model.setStyle({ elem: "O" }, { sphere: { color: "red", scale: 0.3 }, stick: {} });
+    model.setStyle({ elem: "N" }, { sphere: { color: "blue", scale: 0.3 }, stick: {} });
+    
+    // ラベルをモデルに対して追加
+    model.addAtomLabels({
       fontSize: 12,
       fontColor: "black",
       showBackground: true,
       backgroundColor: "white",
       backgroundOpacity: 0.7
     });
-
+    
     viewer.zoomTo();
     viewer.render();
+    
   </script>
 </body>
 </html>
