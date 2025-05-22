@@ -2,26 +2,49 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>3Dmol.js 分子構造表示</title>
+  <title>3Dmol.js 分子構造 + 凡例</title>
   <script src="https://3dmol.org/build/3Dmol-min.js"></script>
   <style>
     #viewer {
       width: 600px;
       height: 400px;
       position: relative;
+      border: 1px solid #ccc;
+    }
+    .legend {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
     }
   </style>
 </head>
 <body>
-  <h2>3Dmol.js で分子構造表示（PDB 形式）</h2>
-  <div id="viewer"></div>
+  <h2>3Dmol.js 分子構造 + 凡例</h2>
+  <div id="viewer">
+    <div class="legend">
+      <strong>凡例：</strong><br>
+      <span class="dot" style="background:red"></span> 酸素（O）<br>
+      <span class="dot" style="background:blue"></span> 窒素（N）<br>
+      <span class="dot" style="background:black"></span> 炭素（C）<br>
+    </div>
+  </div>
 
   <script>
-    const viewer = $3Dmol.createViewer("viewer", {
-      backgroundColor: "white",
-    });
+    const viewer = $3Dmol.createViewer("viewer", { backgroundColor: "white" });
 
-    // 簡易な分子構造：アスパラギンの一部（N-CA-C）
+    // 簡易PDBデータ
     const pdbData = `
 ATOM      1  N   ASN A   1      11.104   8.663   6.204  1.00 10.00           N  
 ATOM      2  CA  ASN A   1      11.595   7.331   6.653  1.00 10.00           C  
@@ -31,11 +54,23 @@ ATOM      5  CB  ASN A   1      10.430   6.427   6.812  1.00 10.00           C
 END
     `;
 
+    // モデル追加
     viewer.addModel(pdbData, "pdb");
-    viewer.setStyle({}, {
-      stick: {},
-      sphere: { scale: 0.3 }
+
+    // 原子の種類ごとに色分け
+    viewer.setStyle({ elem: "C" }, { sphere: { color: "black", scale: 0.3 }, stick: {} });
+    viewer.setStyle({ elem: "O" }, { sphere: { color: "red", scale: 0.3 }, stick: {} });
+    viewer.setStyle({ elem: "N" }, { sphere: { color: "blue", scale: 0.3 }, stick: {} });
+
+    // 原子ラベルを表示
+    viewer.addAtomLabels({
+      fontSize: 12,
+      fontColor: "black",
+      showBackground: true,
+      backgroundColor: "white",
+      backgroundOpacity: 0.7
     });
+
     viewer.zoomTo();
     viewer.render();
   </script>
