@@ -54,25 +54,23 @@ ATOM      5  CB  ASN A   1      10.430   6.427   6.812  1.00 10.00           C
 END
     `;
 
-    // モデル追加
-    const model = viewer.addModel(pdbData, "pdb");  // ← モデルを取得
+      const model = viewer.addModel(pdbData, "pdb");
+      
+      model.setStyle({ elem: "C" }, { sphere: { color: "black", scale: 0.3 }, stick: {} });
+      model.setStyle({ elem: "O" }, { sphere: { color: "red", scale: 0.3 }, stick: {} });
+      model.setStyle({ elem: "N" }, { sphere: { color: "blue", scale: 0.3 }, stick: {} });
+      
+      viewer.getModel().addLabels(null, {
+        fontSize: 12,
+        fontColor: "black",
+        showBackground: true,
+        backgroundColor: "white",
+        backgroundOpacity: 0.7
+      });
+      
+      viewer.zoomTo();
+      viewer.render();
 
-    // 原子の種類ごとに色分け
-    model.setStyle({ elem: "C" }, { sphere: { color: "black", scale: 0.3 }, stick: {} });
-    model.setStyle({ elem: "O" }, { sphere: { color: "red", scale: 0.3 }, stick: {} });
-    model.setStyle({ elem: "N" }, { sphere: { color: "blue", scale: 0.3 }, stick: {} });
-    
-    // ラベルをモデルに対して追加
-    model.addAtomLabels({
-      fontSize: 12,
-      fontColor: "black",
-      showBackground: true,
-      backgroundColor: "white",
-      backgroundOpacity: 0.7
-    });
-    
-    viewer.zoomTo();
-    viewer.render();
     
   </script>
 </body>
