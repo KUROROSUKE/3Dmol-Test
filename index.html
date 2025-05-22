@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>3Dmol.js 分子構造表示</title>
+  <script src="https://3dmol.org/build/3Dmol-min.js"></script>
+  <style>
+    #viewer {
+      width: 600px;
+      height: 400px;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <h2>3Dmol.js で分子構造表示（PDB 形式）</h2>
+  <div id="viewer"></div>
+
+  <script>
+    const viewer = $3Dmol.createViewer("viewer", {
+      backgroundColor: "white",
+    });
+
+    // 簡易な分子構造：アスパラギンの一部（N-CA-C）
+    const pdbData = `
+ATOM      1  N   ASN A   1      11.104   8.663   6.204  1.00 10.00           N  
+ATOM      2  CA  ASN A   1      11.595   7.331   6.653  1.00 10.00           C  
+ATOM      3  C   ASN A   1      12.621   7.529   7.758  1.00 10.00           C  
+ATOM      4  O   ASN A   1      12.472   8.323   8.674  1.00 10.00           O  
+ATOM      5  CB  ASN A   1      10.430   6.427   6.812  1.00 10.00           C  
+END
+    `;
+
+    viewer.addModel(pdbData, "pdb");
+    viewer.setStyle({}, {
+      stick: {},
+      sphere: { scale: 0.3 }
+    });
+    viewer.zoomTo();
+    viewer.render();
+  </script>
+</body>
+</html>
